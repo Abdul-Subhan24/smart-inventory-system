@@ -1,6 +1,7 @@
 # 🚀 Smart Inventory & Sales Management System
 
-A **Python-based backend project** demonstrating real-world **Python Developer (0–2 years)** skills including REST APIs, database integration, authentication, and backend data analysis.
+A **Python-based backend project** demonstrating real-world backend engineering skills using Python, Flask, and SQLite, including RESTful APIs, authentication, and data analysis.
+
 
 ---
 
