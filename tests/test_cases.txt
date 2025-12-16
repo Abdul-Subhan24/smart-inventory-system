@@ -1,0 +1,14 @@
+Test Case 1:
+Add product with valid name, quantity, and price
+Expected Result: Product added to database
+Status: PASS
+
+Test Case 2:
+Add product with empty name
+Expected Result: Validation error
+Status: PASS
+
+Test Case 3:
+Restart application
+Expected Result: Products persist in database
+Status: PASS

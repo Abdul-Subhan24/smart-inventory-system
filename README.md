@@ -1,15 +1,17 @@
 # 🚀 Smart Inventory & Sales Management System
 
-A **Python-based backend project** demonstrating real-world **Python Developer (0–2 years)** skills including REST APIs, database integration, authentication, and data analysis.
+A **Python-based backend project** demonstrating real-world **Python Developer (0–2 years)** skills including REST APIs, database integration, authentication, and backend data analysis.
 
 ---
 
 ## 📌 Project Overview
 
-The **Smart Inventory & Sales Management System** is a backend application built using **Python and Flask** to manage products, inventory, and sales data.  
-It follows clean coding practices, modular architecture, and RESTful design principles.
+The **Smart Inventory & Sales Management System** is a backend application built using **Python and Flask** to manage products and inventory data.
 
-This project is designed to reflect **industry-level expectations for entry-level Python developers**.
+It follows clean coding practices, modular architecture, and RESTful design principles.  
+The application uses **SQLite** for persistence and exposes **REST APIs** for CRUD operations.
+
+This project is designed to reflect **industry-level expectations for entry-level Python / Backend developers**.
 
 ---
 
@@ -31,9 +33,9 @@ This project is designed to reflect **industry-level expectations for entry-leve
 ✔ CRUD operations (Create, Read, Update, Delete)  
 ✔ SQLite database integration  
 ✔ JSON-based request & response handling  
-✔ Basic API-key authentication  
+✔ API-key based authentication  
 ✔ Modular & scalable project structure  
-✔ Sales data analysis and visualization  
+✔ Backend data analysis & visualization  
 ✔ Error handling & input validation  
 
 ---
@@ -43,86 +45,97 @@ This project is designed to reflect **industry-level expectations for entry-leve
 ```text
 smart_inventory_system/
 │
-├── app.py                # Flask app entry point
-├── db.py                 # Database connection & table creation
-├── database.db           # SQLite database (auto-generated)
-├── requirements.txt      # Project dependencies
-├── README.md             # Documentation
+├── app.py                    # Flask app entry point
+├── db.py                     # Database connection & table creation
+├── inventory.py              # Inventory business logic
+├── database.db               # SQLite database (auto-generated, ignored in git)
+├── requirements.txt          # Project dependencies
+├── README.md                 # Project documentation
 │
-├── models/               # OOP-based data models
+├── models/                   # OOP-based data models
 │   ├── __init__.py
 │   ├── product.py
 │   ├── user.py
 │   └── order.py
 │
-├── data/                 # CSV files for analytics
-│   ├── inventory.csv
-│   └── sales.csv
+├── analysis/                 # Offline data analysis
+│   └── sales_analysis.py
 │
-├── analysis.py           # Data analysis & visualization
-└── venv/                 # Virtual environment
+├── tests/
+│   └── test_cases.txt        # Manual test cases
+│
+├── .gitignore
+└── venv/                     # Virtual environment (ignored)
+```
+
+---
 
 ## 🔗 API Design (RESTful Architecture)
 
 The backend follows **REST (Representational State Transfer)** principles to ensure clean, scalable, and predictable APIs.
 
-### 📘 Theory
+### 📘 Key REST Concepts
 
-- REST APIs are stateless  
-- Communication happens using JSON  
-- Each endpoint represents a resource  
-- Standard HTTP methods are used for CRUD operations  
+- Stateless communication  
+- JSON-based request and response  
+- Resource-based endpoints  
+- Standard HTTP methods for CRUD operations  
 
 ### 🔄 HTTP Methods Used
 
-| Method | Purpose | Example |
-|------|--------|---------|
+| Method | Purpose | Endpoint |
+|------|--------|----------|
 | GET | Retrieve data | `/products` |
 | POST | Create data | `/products` |
 | PUT | Update data | `/products/<id>` |
 | DELETE | Delete data | `/products/<id>` |
 
-### 🧪 Example Endpoint
+---
 
-```python
-@app.route("/products", methods=["GET"])
-def get_products():
-    return jsonify(products)
-
-### 🔐 Authentication (API-Key Based)
+## 🔐 Authentication (API-Key Based)
 
 Basic API-key authentication is implemented to protect sensitive endpoints.
 
-### 📘 Theory
+### 📘 How It Works
 
-- Authentication ensures only authorized access
-- API key is passed in request headers
-- Unauthorized access returns 401 Unauthorized
+- API key is passed in request headers  
+- Unauthorized access returns `401 Unauthorized`  
 
 ### 🔑 Header Example
 
+```text
 x-api-key: secret123
+```
 
 ### 🧪 Authentication Logic
 
+```python
 def authenticate(request):
     api_key = request.headers.get("x-api-key")
     return api_key == "secret123"
+```
 
-### 🔗 API Endpoints
-## ➕ Add Product
+---
 
-## POST /products
+## 🔗 API Endpoints
+
+### ➕ Add Product  
+**POST /products**
+
+```json
 {
   "name": "Laptop",
   "price": 55000,
   "quantity": 10
 }
+```
 
-### 📄 Get All Products
+---
 
-## GET /products
+### 📄 Get All Products  
+**GET /products**
 
+```json
 [
   {
     "id": 1,
@@ -131,139 +144,171 @@ def authenticate(request):
     "quantity": 10
   }
 ]
+```
 
-### ✏️ Update Product
+---
 
-## PUT /products/<id>
+### ✏️ Update Product  
+**PUT /products/<id>**
+
+```json
 {
   "name": "Laptop Pro",
   "price": 60000,
   "quantity": 8
 }
+```
 
-### ❌ Delete Product
+---
 
-### DELETE /products/<id>
+### ❌ Delete Product  
+**DELETE /products/<id>**
 
-### 🗄️ Database Design (SQLite)
-The application uses SQLite, a lightweight relational database.
+---
 
-### 📘 Theory
+## 🗄️ Database Design (SQLite)
 
-- SQLite is serverless and easy to use
-- Ideal for learning and small applications
-- Supports relational database concepts
+The application uses **SQLite**, a lightweight relational database suitable for learning and small backend applications.
+
+### 📘 Database Characteristics
+
+- Serverless and file-based  
+- Supports relational design  
+- Automatically initialized when the application starts  
 
 ### 📑 Tables
 
-- users
-- products
-- orders
+- `users`
+- `products`
+- `orders`
 
 ### 🧪 Table Creation Example
 
-cursor.execute("""
+```python
 CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     price REAL NOT NULL,
     quantity INTEGER NOT NULL
+);
+```
+
+---
+
+## 📊 Data Analysis & Visualization
+
+The project includes an **offline analytics module** to demonstrate how backend data can be analyzed.
+
+### 📘 Purpose
+
+- Demonstrates backend data processing  
+- Generates insights from inventory data  
+- Visualizes results using charts  
+
+### 🧪 Example (from `analysis/sales_analysis.py`)
+
+```python
+df = pd.read_sql_query(
+    "SELECT name, price, quantity FROM products",
+    conn
 )
-""")
 
-Tables are created automatically when the application starts.
-
-### 📊 Data Analysis & Visualization
-The project includes analytics to demonstrate backend data handling.
-
-### 📘 Theory
-
-- Backend systems often generate reports and insights
-- Pandas handles data manipulation
-- Matplotlib handles visualization
-
-### 🧪 Example
-import pandas as pd
-import matplotlib.pyplot as plt
-
-df = pd.read_csv("data/sales.csv")
-summary = df.groupby("product")["amount"].sum()
+df["total_value"] = df["price"] * df["quantity"]
+summary = df.groupby("name")["total_value"].sum()
 
 summary.plot(kind="bar")
 plt.show()
+```
 
-### ▶️ How the Application Runs
-## 📘 Theory
+> Note: This analysis script is **not part of the Flask runtime** and is executed separately.
 
-1. Flask app starts from app.py
-2. Database tables are initialized
-3. API receives request
-4. Business logic executes
-5. JSON response is returned
+---
 
-### ▶️ How to Run the Project
-## 1️⃣ Clone the Repository
+## ▶️ How the Application Runs
 
+1. Flask app starts from `app.py`  
+2. Database tables are initialized automatically  
+3. API receives HTTP requests  
+4. Business logic executes  
+5. JSON responses are returned  
+
+---
+
+## ▶️ How to Run the Project
+
+### 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/Abdul-Subhan24/smart-inventory-system.git
 cd smart-inventory-system
+```
 
-## 2️⃣ Create & Activate Virtual Environment
+### 2️⃣ Create & Activate Virtual Environment
 
+```bash
 python -m venv venv
 venv\Scripts\activate
+```
 
-## 3️⃣ Install Dependencies
+### 3️⃣ Install Dependencies
 
+```bash
 pip install -r requirements.txt
+```
 
-## 4️⃣ Run the Application
+### 4️⃣ Run the Application
 
+```bash
 python app.py
+```
 
-## Server runs at:
+Server runs at:
 
+```text
 http://127.0.0.1:5000
+```
 
-### 🧪 API Testing
-### 📘 Theory
+---
 
-- API testing validates correctness
-- Postman simulates client requests
+## 🧪 API Testing
 
-### 🛠️ Tools Used
+### Tools Used
 
-- Postman
-- Flask Development Server
+- Postman  
+- Flask Development Server  
 
-### 🎯 Learning Outcomes
-### 📘 Theory
+API requests can be tested using Postman by setting headers and request bodies.
+
+---
+
+## 🎯 Learning Outcomes
 
 This project demonstrates:
 
- - Python fundamentals & OOP
- - Flask backend development
- - REST API design
- - SQLite database interaction
- - Authentication basics
- - Data analysis & visualization
- - Debugging and real-world problem solving
+- Python fundamentals & OOP  
+- Flask backend development  
+- REST API design  
+- SQLite database interaction  
+- Authentication basics  
+- Backend data analysis & visualization  
+- Debugging and real-world problem solving  
 
-### 🔮 Future Enhancements
-### 📘 Theory
+---
 
-- JWT authentication
-- Role-based access control
-- Pagination & filtering
-- Cloud deployment (AWS / Render)
-- Frontend integration
+## 🔮 Future Enhancements
 
-### 👨‍💻 Author
+- JWT authentication  
+- Role-based access control  
+- Pagination & filtering  
+- Cloud deployment (AWS / Render)  
+- Frontend integration  
 
-## Md Abdul Subhan
-Python Developer | Data & ML Background
-📍 Hyderabad, India
+---
 
+## 👨‍💻 Author
 
+**Md Abdul Subhan**  
+Python Developer | Data & ML Background  
+📍 Hyderabad, India  
 
-
-
+---
